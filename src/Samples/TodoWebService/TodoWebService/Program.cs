@@ -33,20 +33,21 @@ builder.Host.UseWolverine(opts =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddOpenApiDocument();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseOpenApi();
+    app.UseSwaggerUi();
 }
 
 // Let's add in Wolverine HTTP endpoints to the routing tree
 app.MapWolverineEndpoints();
 
+args = args.Where(arg => !arg.StartsWith("--applicationName")).ToArray();
 return await app.RunOaktonCommands(args);
 
 #endregion
